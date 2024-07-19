@@ -39,19 +39,29 @@ class DatabaseManager:
             print("Table created successfully")
         except (Exception, psycopg2.DatabaseError) as error:
             print(f"Error creating table: {error}")
-    
+   
     def insert_data(self, insert_sql, data):
         try:
             self.cursor.execute(insert_sql, data)
             self.connection.commit()
             print("Data inserted successfully")
+            return True
         except (Exception, psycopg2.DatabaseError) as error:
             print(f"Error inserting data: {error}")
+            return False
     
-    def query_data(self, query_sql):
+    def query_data_fetch_all(self, query_sql):
         try:
             self.cursor.execute(query_sql)
             records = self.cursor.fetchall()
+            return records
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(f"Error querying data: {error}")
+    
+    def query_data_fetch_one(self, query_sql,data=True):
+        try:
+            self.cursor.execute(query_sql,data)
+            records = self.cursor.fetchone()
             return records
         except (Exception, psycopg2.DatabaseError) as error:
             print(f"Error querying data: {error}")
