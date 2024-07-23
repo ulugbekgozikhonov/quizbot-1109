@@ -4,15 +4,14 @@ from loader import dp,dbmanager
 import middlewares, filters, handlers
 from utils.notify_admins import on_startup_notify
 from utils.set_bot_commands import set_default_commands
-from utils.db_api.query import create_user_table
+from utils.db_api.query import create_user_table,create_category_table
 
 
 
 async def on_startup(dispatcher):
     await set_default_commands(dispatcher)
-    dbmanager.connect()
-    dbmanager.create_table(create_table_sql=create_user_table)
-    dbmanager.close()
+    # dbmanager.create_table(create_table_sql=create_user_table)
+    dbmanager.create_table(create_table_sql=create_category_table)
     await on_startup_notify(dispatcher)
 
 

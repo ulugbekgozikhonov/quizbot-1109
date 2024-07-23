@@ -3,7 +3,8 @@ from aiogram.dispatcher.filters.builtin import CommandStart
 from aiogram.dispatcher import FSMContext
 
 from keyboards.inline.user import language_markup
-from states.user import RegisterState
+from keyboards.default.user import categories
+from states.user import RegisterState, QuizState
 from loader import dp,dbmanager
 from utils.db_api.query import get_user_by_chat_id
 
@@ -15,7 +16,10 @@ async def bot_start(message: types.Message,state:FSMContext):
     user = dbmanager.query_data_fetch_one(query_sql=get_user_by_chat_id,data=(chat_id,))
     dbmanager.close()
     if user:
-        await message.answer("Welcome to quiz bot")
+        lang = user[4]
+        await message.answer("Welcome to quiz bot",reply_markup=categories(lang))
+        await state.update_data(lang=lang)
+        await QuizState.category.set()
     else:
         await state.update_data(chat_id=chat_id)
         await message.answer(f"""

@@ -39,11 +39,9 @@ async def phone_number_handler(message: types.Message, state: FSMContext):
     phone_number = message.contact.phone_number
     language = data['language']
     chat_id = data['chat_id']
-    full_name = data['full_name']
-    
-    dbmanager.connect()
+    full_name = data['full_name']    
     response = dbmanager.insert_data(insert_sql=insert_user,data=(full_name,phone_number,chat_id,language))
-    dbmanager.close()
+
     if response:
         if language == "uz":
             await message.answer("Siz registratsiya jarayonidan o'tdingiz", reply_markup=remove_markup)
