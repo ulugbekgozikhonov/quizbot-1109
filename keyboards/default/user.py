@@ -1,6 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 from loader import dbmanager
-from utils.db_api.query import get_all_categories
+from utils.db_api.query import get_all_categories,get_answers
 
 remove_markup = ReplyKeyboardRemove()
 
@@ -22,13 +22,33 @@ def categories(lang):
     
     return categoris_btn
             
-start_quiz = ReplyKeyboardMarkup(
-    keyboard=[
-        [
-            KeyboardButton("Start")
-        ],
-        [
-            KeyboardButton("⬅️")
-        ]
-    ]
-)    
+def start_quiz(lang):
+    reply_mrkup = ReplyKeyboardMarkup(resize_keyboard=True,row_width=1)
+    if lang=="uz":
+        start = KeyboardButton("🔰Boshlash")
+        back = KeyboardButton("⬅️Orqaga")
+    elif lang == "ru":
+        start = KeyboardButton("🔰Начать")
+        back = KeyboardButton("⬅️Назад")
+    elif lang == "en":
+        start = KeyboardButton("🔰Start")
+        back = KeyboardButton("⬅️Back")
+        
+    return reply_mrkup.add(start,back)
+
+
+def answers(lang,question_id):
+    answers = dbmanager.query_data_fetch_all(get_answers,(question_id,))
+    answer_murkup = ReplyKeyboardMarkup(resize_keyboard=True)
+    
+    for answer in answers:
+        if lang == "uz":
+            btn = KeyboardButton(answer[1])
+        elif lang == "ru":
+            btn = KeyboardButton(answer[2])
+        elif lang == "en":
+            btn = KeyboardButton(answer[3])
+        answer_murkup.add(btn)
+    
+    return answer_murkup
+    

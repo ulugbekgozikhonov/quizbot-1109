@@ -7,3 +7,5 @@ class RegisterState(StatesGroup):
 
 class QuizState(StatesGroup):
     category = State()
+    start_or_back = State()
+    question = State()

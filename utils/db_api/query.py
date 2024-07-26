@@ -19,4 +19,28 @@ create_category_table = """CREATE TABLE IF NOT EXISTS categories(
 
 insert_category = """INSERT INTO categories(title_uz,title_ru,title_en) VALUES(%s,%s,%s)"""
 
-get_all_categories = "SELECT * FROM categories"
+get_all_categories = "SELECT * FROM categories  "
+
+
+create_questions_table = """CREATE TABLE IF NOT EXISTS questions(
+    id SERIAL PRIMARY KEY,
+    title_uz TEXT, 
+    title_ru TEXT,
+    title_en TEXT,
+    category_id INTEGER
+    )"""
+    
+get_quiestions_by_category_name = "SELECT q.id,q.title_uz,q.title_ru,q.title_en FROM questions as q JOIN categories as c ON c.id=q.category_id WHERE c.title_uz = %s OR c.title_ru = %s OR c.title_en = %s LIMIT 10 OFFSET 0"
+
+
+create_answers_table = """CREATE TABLE IF NOT EXISTS answers(
+    id SERIAL PRIMARY KEY,
+    title_uz TEXT, 
+    title_ru TEXT,
+    title_en TEXT,
+    question_id INTEGER,
+    is_correct BOOLEAN DEFAULT FALSE
+    )"""
+
+
+get_answers = "SELECT * FROM answers WHERE question_id=%s"

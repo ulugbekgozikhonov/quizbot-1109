@@ -56,10 +56,10 @@ class DatabaseManager:
         finally:
             self.close()
     
-    def query_data_fetch_all(self, query_sql):
+    def query_data_fetch_all(self, query_sql,data=True):
         self.connect()
         try:
-            self.cursor.execute(query_sql)
+            self.cursor.execute(query_sql,data)
             records = self.cursor.fetchall()
             return records
         except (Exception, psycopg2.DatabaseError) as error:
