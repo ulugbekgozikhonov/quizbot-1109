@@ -44,3 +44,16 @@ create_answers_table = """CREATE TABLE IF NOT EXISTS answers(
 
 
 get_answers = "SELECT * FROM answers WHERE question_id=%s"
+
+
+
+create_user_answers_table = """CREATE TABLE IF NOT EXISTS user_answers(
+    id SERIAL PRIMARY KEY,
+    chat_id INTEGER,
+    question_id INTEGER,
+    answer_id INTEGER,
+    deleted BOOLEAN DEFAULT FALSE,
+    is_correct BOOLEAN DEFAULT FALSE
+    )"""
+
+insert_user_answers = "INSERT INTO user_answers(chat_id,question_id,answer_id,is_correct) VALUES(%s,%s,%s,%s)"

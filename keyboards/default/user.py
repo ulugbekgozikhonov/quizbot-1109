@@ -40,15 +40,23 @@ def start_quiz(lang):
 def answers(lang,question_id):
     answers = dbmanager.query_data_fetch_all(get_answers,(question_id,))
     answer_murkup = ReplyKeyboardMarkup(resize_keyboard=True)
+    answer_ids = {}
     
     for answer in answers:
         if lang == "uz":
             btn = KeyboardButton(answer[1])
+            answer_ids[answer[0]] = answer[1]
         elif lang == "ru":
             btn = KeyboardButton(answer[2])
+            answer_ids[answer[0]] = answer[2]
         elif lang == "en":
             btn = KeyboardButton(answer[3])
+            answer_ids[answer[0]] = answer[3]
+        
+        if answer[-1] == True:
+            answer_ids["correct_id"] = answer[0]
+            
         answer_murkup.add(btn)
     
-    return answer_murkup
+    return answer_murkup,answer_ids
     
